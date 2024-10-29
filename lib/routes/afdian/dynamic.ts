@@ -1,4 +1,5 @@
 import got from '@/utils/got';
+import type { Route } from '@/types';
 
 export const route: Route = {
     path: '/dynamic/:uid?',
@@ -12,7 +13,7 @@ export const route: Route = {
 
 async function handler(ctx) {
     const url_slug = ctx.req.param('uid').replace('@', '');
-    const baseUrl = 'https://afdian.net';
+    const baseUrl = 'https://afdian.com';
     const userInfoRes = await got(`${baseUrl}/api/user/get-profile-by-slug`, {
         searchParams: {
             url_slug,

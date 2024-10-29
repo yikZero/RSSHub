@@ -1,9 +1,10 @@
+import ConfigNotFoundError from '@/errors/types/config-not-found';
 import mobileApi from './mobile-api/api';
 import webApi from './web-api/api';
 import { config } from '@/config';
 
 const enableMobileApi = config.twitter.username && config.twitter.password;
-const enableWebApi = config.twitter.cookie;
+const enableWebApi = config.twitter.authToken;
 
 type ApiItem = (id: string, params?: Record<string, any>) => Promise<Record<string, any>> | Record<string, any> | null;
 let api: {
@@ -17,9 +18,10 @@ let api: {
     getSearch: ApiItem;
     getList: ApiItem;
     getHomeTimeline: ApiItem;
+    getHomeLatestTimeline: ApiItem;
 } = {
     init: () => {
-        throw new Error('Twitter API is not configured');
+        throw new ConfigNotFoundError('Twitter API is not configured');
     },
     getUser: () => null,
     getUserTweets: () => null,
@@ -30,6 +32,7 @@ let api: {
     getSearch: () => null,
     getList: () => null,
     getHomeTimeline: () => null,
+    getHomeLatestTimeline: () => null,
 };
 
 if (enableWebApi) {
